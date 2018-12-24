@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'fogo-na-babilonia';
+  cards = ['Card 1', 'Card 2', 'Card 3']
 }

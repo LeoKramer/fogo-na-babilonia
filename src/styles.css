@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  background-color: #333333;
+}
+
+.card {
+  margin: 0;
+  width: calc(100% - 32px);
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 3px solid #ffffff;
+}
