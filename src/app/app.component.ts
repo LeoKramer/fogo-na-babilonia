@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'fogo-na-babilonia';
-  cards = ['Card 1 suaisad asdhuidh', 'Card 2', 'Card 3']
+  title = 'fogo-na-babilonia'
 }

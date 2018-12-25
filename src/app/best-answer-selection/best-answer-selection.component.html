@@ -1,3 +1,7 @@
-<p>
-  best-answer-selection works!
-</p>
+<div class="card-container">
+  <h4>Selecione a melhor resposta</h4>
+  <div *ngFor="let question of questions">
+    <app-question-card [question]="question"></app-question-card>
+  </div>
+  <button class="button-center" (click)="confirm()">Confirmar</button>
+</div>

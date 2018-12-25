@@ -8,8 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AnswerCardComponent implements OnInit {
 
-  answer: String = ''
-  selectionNumber: Number = 0
+  answer: String
+  selectionNumber: Number
   constructor() { }
 
   ngOnInit() {
