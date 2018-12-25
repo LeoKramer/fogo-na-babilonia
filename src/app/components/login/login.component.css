@@ -1,0 +1,21 @@
+.header{
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .row{
+    margin-top: 10px;
+  }
+  
+  .error{
+    color: red;
+  }
+  
+  .card-play {
+    margin: auto;
+    padding: 8px 16px;
+    max-width: 260px;
+    border: 3px solid #ffffff;
+    border-radius: 3px;
+  }

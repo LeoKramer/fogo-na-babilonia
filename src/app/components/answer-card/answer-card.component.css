@@ -20,5 +20,5 @@
   vertical-align: top;
   display: inline-block;
   width: calc(100% - 66px);
-  padding-left: 16px;
+  padding: 16px;
 }

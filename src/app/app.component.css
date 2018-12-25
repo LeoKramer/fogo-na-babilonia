@@ -1,7 +1,8 @@
-.primary-background {
-  background-color: #1a1a1a
+section {
+  min-height: calc(100vh - 88px);
 }
 
-.primary-color {
-  color: #ffffff;
+footer {
+  background-color: #000000;
+  padding: 32px 16px;
 }
