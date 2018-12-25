@@ -24,6 +24,7 @@ import { AuthService } from './services/auth.service'
 import { UserService } from './services/user.service'
 import { UserResolver } from './components/main-menu/user.resolver'
 import { rootRouterConfig } from './app.routes';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { rootRouterConfig } from './app.routes';
     QuestionSelectionComponent,
     BestAnswerSelectionComponent,
     LoginComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
