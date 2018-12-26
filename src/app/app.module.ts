@@ -23,7 +23,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service'
 import { UserService } from './services/user.service'
 import { UserResolver } from './components/main-menu/user.resolver'
-import { rootRouterConfig } from './app.routes';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
@@ -41,14 +40,13 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
   imports: [
     BrowserModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    AppRoutingModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(rootRouterConfig, { useHash: false }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AppRoutingModule
   ],
   providers: [AuthService, UserService, UserResolver, AuthGuard],
   bootstrap: [AppComponent]

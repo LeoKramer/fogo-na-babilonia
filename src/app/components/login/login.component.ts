@@ -4,7 +4,7 @@ import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'page-login',
+  selector: 'app-page-login',
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css']
 })

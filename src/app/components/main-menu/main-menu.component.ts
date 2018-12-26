@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { FirebaseUserModel } from '../../models/user.model';
 
 @Component({
-  selector: 'page-main-menu',
+  selector: 'app-page-main-menu',
   templateUrl: 'main-menu.component.html',
   styleUrls: ['main-menu.component.css']
 })
