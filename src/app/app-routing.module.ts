@@ -13,10 +13,10 @@ const routes: Routes = [
   { path: 'answers', component: AnswerSelectionComponent },
   { path: 'questions', component: QuestionSelectionComponent },
   { path: 'best-answer', component: BestAnswerSelectionComponent },
-  { path: '**', component: PageNotFoundComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-  { path: 'menu', component: MainMenuComponent,  resolve: { data: UserResolver}}
+  { path: 'menu', component: MainMenuComponent,  resolve: { data: UserResolver}},
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
