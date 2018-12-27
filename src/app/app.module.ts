@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from 'angularfire2';
@@ -24,6 +23,7 @@ import { AuthService } from './services/auth.service'
 import { UserService } from './services/user.service'
 import { UserResolver } from './components/main-menu/user.resolver'
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { CardsService } from './services/cards.services';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     AngularFireAuthModule,
     AppRoutingModule
   ],
-  providers: [AuthService, UserService, UserResolver, AuthGuard],
+  providers: [AuthService, UserService, UserResolver, AuthGuard, CardsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

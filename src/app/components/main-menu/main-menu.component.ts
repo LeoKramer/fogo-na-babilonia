@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { CardsService } from '../../services/cards.services';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FirebaseUserModel } from '../../models/user.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-page-main-menu',
@@ -16,15 +18,16 @@ export class MainMenuComponent implements OnInit{
   user: FirebaseUserModel = new FirebaseUserModel();
   profileForm: FormGroup;
 
+  model: any = {};
+
   constructor(
     public userService: UserService,
     public authService: AuthService,
+    public cardsService: CardsService,
     private route: ActivatedRoute,
     private location : Location,
     private fb: FormBuilder
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(routeData => {
@@ -56,5 +59,13 @@ export class MainMenuComponent implements OnInit{
     }, (error) => {
       console.log("Logout error", error);
     });
+  }
+
+  onSubmit() {
+    console.log("Conectar na partida " + this.model.matchID);
+  }
+
+  createMatch() {
+    console.log("criar uma partida")
   }
 }

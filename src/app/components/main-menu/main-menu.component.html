@@ -12,5 +12,23 @@
     <div class="col-md-4">
       <button type="button" (click)="logout()" class="btn btn-link">Deslogar</button>
     </div>
+    <div>
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+            <div class="form-group">
+                <label for="matchID">ID da Partida</label>
+                <input type="text" class="form-control" name="matchID" [(ngModel)]="model.matchID" #matchID="ngModel" [ngClass]="{ 'is-invalid': f.submitted && matchID.invalid }" required />
+                <div *ngIf="f.submitted && matchID.invalid" class="invalid-feedback">
+                    <div *ngIf="matchID.errors.required">Insira o ID da Partida</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary">Entrar</button>
+            </div>
+        </form>
+    </div>
+    <div>
+      Ainda não tem uma partida criada?
+      <button type="button" (click)="createMatch()" class="primary">Criar uma partida</button>
+    </div>
   </div>
 </div>
