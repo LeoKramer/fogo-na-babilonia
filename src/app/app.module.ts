@@ -24,6 +24,7 @@ import { UserService } from './services/user.service'
 import { UserResolver } from './components/main-menu/user.resolver'
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { CardsService } from './services/cards.services';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CardsService } from './services/cards.services';
     BestAnswerSelectionComponent,
     LoginComponent,
     MainMenuComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
