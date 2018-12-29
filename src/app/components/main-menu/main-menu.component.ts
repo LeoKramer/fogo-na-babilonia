@@ -3,10 +3,8 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { CardsService } from '../../services/cards.services';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseUserModel } from '../../models/user.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-page-main-menu',
@@ -25,7 +23,6 @@ export class MainMenuComponent implements OnInit{
     public authService: AuthService,
     public cardsService: CardsService,
     private route: ActivatedRoute,
-    private location : Location,
     private fb: FormBuilder
   ) { }
 
@@ -50,15 +47,6 @@ export class MainMenuComponent implements OnInit{
     .then(res => {
       console.log(res);
     }, err => console.log(err))
-  }
-
-  logout(){
-    this.authService.doLogout()
-    .then((res) => {
-      this.location.back();
-    }, (error) => {
-      console.log("Logout error", error);
-    });
   }
 
   onSubmit() {
