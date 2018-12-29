@@ -5,6 +5,8 @@ import * as firebase from 'firebase/app';
 import { FirebaseUserModel } from '../models/user.model';
 import { UserService } from './user.service';
 import { CardsService } from './cards.services';
+import { Status} from './../enum/status.enum'
+import { Router } from '@angular/router';
 
 @Injectable()
 export class MatchService {
@@ -13,12 +15,14 @@ export class MatchService {
     askingPlayer: string;
     matchStatus: string;
     cardsOnHand: String[];
+    matchPlayers: Array<any>;
 
   constructor(
    public db: AngularFirestore,
    public afAuth: AngularFireAuth,
    public userService: UserService,
-   public cardsService: CardsService
+   public cardsService: CardsService,
+   public router: Router
   ){ }
 
   createMatch() {
@@ -31,40 +35,41 @@ export class MatchService {
     }
 
     var match = this.db.collection('matches').add({
-        status: "drafting",
+        status: Status.waitingPlayers.valueOf(),
         questionCards: questionCards,
         answerCards: answerCards,
         asking: this.userService.getUserName(),
-        players: [{ player : this.userService.getUserUID(), score : 0 , cards : cardsOnHand}]
+        players: [{ player : this.userService.getUserUID(), name: this.userService.getUserName(), image: this.userService.getUserImage(), score : 0 , cards : cardsOnHand}]
     })
     match.then(data => {
         this.matchID = data['id'];
+        this.startListeners();
+        this.router.navigate(['/start']);
     })
-
-    this.getAskingPlayerFromFirebase();
-    this.getMatchStatusFromFirebase();
-    this.getCardsOnHandFromFirebase();
   }
 
   joinMatch(matchID: string) {
     this.setMatchID(matchID);
     var matchData = this.db.collection('matches').doc(matchID).get();
     matchData.subscribe(data => {
+        if(data.get('status') != Status.waitingPlayers.toString()) {
+            return;
+        }
+
         var players = data.get('players');
-        
         for(let player of players){
             if(player['player'] == this.userService.getUserUID()) {
                 return;
             }
         }
-        
+
         var matchAnswerCards = data.get('answerCards');
         var cardsOnHand = [];
         for(var i = 0; i < 5; i++) {
             cardsOnHand.push(matchAnswerCards.pop());
         }
 
-        var currentPlayer = {player : this.userService.getUserUID(), score : 0, cards: cardsOnHand};
+        var currentPlayer = {player : this.userService.getUserUID(), name: this.userService.getUserName(), image: this.userService.getUserImage(), score : 0, cards: cardsOnHand};
         players.push(currentPlayer);
 
         this.db.collection('matches').doc(matchID).update({
@@ -72,10 +77,15 @@ export class MatchService {
             answerCards : matchAnswerCards
         })
 
-        this.getAskingPlayerFromFirebase();
-        this.getMatchStatusFromFirebase();
-        this.getCardsOnHandFromFirebase();
+        this.startListeners()
     })
+  }
+
+  private startListeners() {
+    this.getAskingPlayerFromFirebase();
+    this.getMatchStatusFromFirebase();
+    this.getCardsOnHandFromFirebase();
+    this.getMatchPlayersFromFirebase();
   }
 
   getMatchID() {
@@ -119,11 +129,22 @@ export class MatchService {
   private getMatchStatusFromFirebase() {
     var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
     matchData.subscribe(data => {
-        this.matchStatus = data[status];
+        this.matchStatus = data['status'];
     })
   }
 
   getMatchStatus() {
     return this.matchStatus;
+  }
+
+  private getMatchPlayersFromFirebase() {
+    var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
+    matchData.subscribe(data => {
+        this.matchPlayers = data['players'];
+    })
+  }
+
+  getMatchPlayers() {
+      return this.matchPlayers;
   }
 }
