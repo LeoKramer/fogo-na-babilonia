@@ -5,12 +5,14 @@ import * as firebase from 'firebase/app';
 import { FirebaseUserModel } from '../models/user.model';
 import { UserService } from './user.service';
 import { CardsService } from './cards.services';
-import { forEach } from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class MatchService {
 
     matchID: string;
+    askingPlayer: string;
+    matchStatus: string;
+    cardsOnHand: String[];
 
   constructor(
    public db: AngularFirestore,
@@ -38,6 +40,10 @@ export class MatchService {
     match.then(data => {
         this.matchID = data['id'];
     })
+
+    this.getAskingPlayerFromFirebase();
+    this.getMatchStatusFromFirebase();
+    this.getCardsOnHandFromFirebase();
   }
 
   joinMatch(matchID: string) {
@@ -45,7 +51,13 @@ export class MatchService {
     var matchData = this.db.collection('matches').doc(matchID).get();
     matchData.subscribe(data => {
         var players = data.get('players');
-
+        
+        for(let player of players){
+            if(player['player'] == this.userService.getUserUID()) {
+                return;
+            }
+        }
+        
         var matchAnswerCards = data.get('answerCards');
         var cardsOnHand = [];
         for(var i = 0; i < 5; i++) {
@@ -60,7 +72,9 @@ export class MatchService {
             answerCards : matchAnswerCards
         })
 
-        this.getCardsOnHand()
+        this.getAskingPlayerFromFirebase();
+        this.getMatchStatusFromFirebase();
+        this.getCardsOnHandFromFirebase();
     })
   }
 
@@ -72,17 +86,44 @@ export class MatchService {
       this.matchID = matchID;
   }
 
-  getCardsOnHand() {
-    var matchData = this.db.collection('matches').doc(this.matchID).get();
+  private getCardsOnHandFromFirebase() {
+    var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
     matchData.subscribe(data => {
         var cardsOnHand: String[];
-        var players = data.get('players');
+        var players = data['players'];
         for(let player of players){
             if(player['player'] == this.userService.getUserUID()) {
                 cardsOnHand = player['cards'];
+                break;
             }
         }
-        return cardsOnHand;
+        this.cardsOnHand = cardsOnHand;
     })
+  }
+
+  getCardsOnHand() {
+    return this.cardsOnHand;
+  }
+
+  private getAskingPlayerFromFirebase() {
+    var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
+    return matchData.subscribe(data => {
+        this.askingPlayer = data['asking'];
+    })
+  }
+
+  getAskingPlayer() {
+    return this.askingPlayer;
+  }
+
+  private getMatchStatusFromFirebase() {
+    var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
+    matchData.subscribe(data => {
+        this.matchStatus = data[status];
+    })
+  }
+
+  getMatchStatus() {
+    return this.matchStatus;
   }
 }
