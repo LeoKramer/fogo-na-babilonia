@@ -25,6 +25,7 @@ import { UserResolver } from './components/main-menu/user.resolver'
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { CardsService } from './services/cards.services';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { StartGameComponent } from './components/start-game/start-game.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     LoginComponent,
     MainMenuComponent,
     PageNotFoundComponent,
-    NavbarComponent
+    NavbarComponent,
+    StartGameComponent
   ],
   imports: [
     BrowserModule,

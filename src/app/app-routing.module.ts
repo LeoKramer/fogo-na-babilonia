@@ -8,8 +8,10 @@ import { LoginComponent } from './components/login/login.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { UserResolver } from './components/main-menu/user.resolver';
 import { AuthGuard } from './guards/auth.guard';
+import { StartGameComponent } from './components/start-game/start-game.component';
 
 const routes: Routes = [
+  { path: 'start', component: StartGameComponent },
   { path: 'answers', component: AnswerSelectionComponent },
   { path: 'questions', component: QuestionSelectionComponent },
   { path: 'best-answer', component: BestAnswerSelectionComponent },

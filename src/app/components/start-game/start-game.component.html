@@ -1,0 +1,13 @@
+<div class="card-container">
+  <h5 style="margin:auto;">ID da partida: <strong>5</strong></h5>
+  <p>Envie o ID da partida para seus amigos entrarem na partida.</p>
+  <hr>
+  <div>
+    <h5>Jogadores:</h5>
+    <div *ngFor="let player of players">
+      <img style="display:inline-block;width:32px;height:32px;border-radius:16px;margin-right:8px;background-color:lightgray;" src="" alt="">
+      <p style="display:inline-block;">{{ player }}</p>
+    </div>
+  </div>
+  <button class="button-center">Iniciar a partida</button>
+</div>
