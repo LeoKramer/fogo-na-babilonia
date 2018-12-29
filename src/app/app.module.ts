@@ -26,6 +26,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { CardsService } from './services/cards.services';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { StartGameComponent } from './components/start-game/start-game.component';
+import { MatchService } from './services/match.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { StartGameComponent } from './components/start-game/start-game.component
     AngularFireAuthModule,
     AppRoutingModule
   ],
-  providers: [AuthService, UserService, UserResolver, AuthGuard, CardsService],
+  providers: [AuthService, UserService, UserResolver, AuthGuard, CardsService, MatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

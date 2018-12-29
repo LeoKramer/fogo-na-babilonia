@@ -17,6 +17,7 @@ export class UserResolver implements Resolve<FirebaseUserModel> {
       .then(res => {
         user.image = res.photoURL;
         user.name = res.displayName;
+        user.uid = res.uid;
         user.provider = res.providerData[0].providerId;
         
         if(user.provider == "facebook.com") {
@@ -31,6 +32,9 @@ export class UserResolver implements Resolve<FirebaseUserModel> {
 
           user.image = "https://pbs.twimg.com/profile_images/" + param1 + "/" + param2 + ".jpg";
         }
+
+        this.userService.setUser(user);
+
         return resolve(user);
       }, err => {
         this.router.navigate(['/login']);

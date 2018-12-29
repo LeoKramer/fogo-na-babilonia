@@ -2,9 +2,14 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { FirebaseUserModel } from '../models/user.model';
 
 @Injectable()
 export class UserService {
+
+  userImage: String;
+  userName: String;
+  userUID: String;
 
   constructor(
    public db: AngularFirestore,
@@ -34,5 +39,23 @@ export class UserService {
         resolve(res)
       }, err => reject(err))
     })
+  }
+
+  setUser(user: FirebaseUserModel) {
+    this.userImage = user.image;
+    this.userName = user.name;
+    this.userUID = user.uid;
+  }
+
+  getUserName() : String {
+    return this.userName;
+  }
+
+  getUserImage() : String {
+    return this.userImage;
+  }
+
+  getUserUID() : String {
+    return this.userUID;
   }
 }

@@ -5,6 +5,7 @@ import { CardsService } from '../../services/cards.services';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseUserModel } from '../../models/user.model';
+import { MatchService } from 'src/app/services/match.service';
 
 @Component({
   selector: 'app-page-main-menu',
@@ -22,6 +23,7 @@ export class MainMenuComponent implements OnInit{
     public userService: UserService,
     public authService: AuthService,
     public cardsService: CardsService,
+    public matchService: MatchService,
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) { }
@@ -54,6 +56,6 @@ export class MainMenuComponent implements OnInit{
   }
 
   createMatch() {
-    console.log("criar uma partida")
+    this.matchService.createMatch();
   }
 }
