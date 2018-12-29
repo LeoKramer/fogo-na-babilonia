@@ -14,7 +14,7 @@ export class CardsService {
         this.getAnswerCardsFromFirebase();
     }
 
-    getQuestionCardsFromFirebase() {
+    private getQuestionCardsFromFirebase() {
         var questionsObservable: Observable<{}> = this.db.collection('cards').doc('questions').valueChanges();
         questionsObservable.subscribe(data => {
             this.questionCards = [];
@@ -25,7 +25,7 @@ export class CardsService {
         })
     }
 
-    getAnswerCardsFromFirebase() {
+    private getAnswerCardsFromFirebase() {
         var answersObservable: Observable<{}> = this.db.collection('cards').doc('answers').valueChanges();
         answersObservable.subscribe(data => {
             this.answerCards = [];
