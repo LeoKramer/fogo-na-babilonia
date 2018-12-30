@@ -1,0 +1,10 @@
+<div class="card-container">
+  <h5>Pontuação:</h5>
+  <div *ngFor="let player of players">
+    <img style="display:inline-block;width:32px;height:32px;border-radius:16px;margin-right:8px;background-color:lightgray;"
+      [src]="player.image" alt="">
+    <p style="display:inline-block;">{{ player.name }}</p>
+    <p style="display:inline-block;">{{ player.score }}</p>
+  </div>
+  <button class="button-center" (click)="goToHome()">Voltar para home</button>
+</div>

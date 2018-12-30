@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { UserModel } from 'src/app/models/user.model';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { UserService } from 'src/app/services/user.service';
 import { MatchService } from 'src/app/services/match.service';
-import { UserModel } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-start-game',
-  templateUrl: './start-game.component.html',
-  styleUrls: ['./start-game.component.css']
+  selector: 'app-score',
+  templateUrl: './score.component.html',
+  styleUrls: ['./score.component.css']
 })
-export class StartGameComponent implements OnInit {
-  
+export class ScoreComponent implements OnInit {
+
   players: UserModel[];
   matchID: string;
 
   constructor(private db: AngularFirestore, 
               private userService: UserService, 
-              private matchService: MatchService) 
+              private matchService: MatchService,
+              private router: Router) 
   { 
     this.matchID = matchService.getMatchID()
     var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
@@ -28,16 +30,8 @@ export class StartGameComponent implements OnInit {
   ngOnInit() {
   }
 
-  copyToClipboard() {
-    document.addEventListener('copy', (e: ClipboardEvent) => {
-      e.clipboardData.setData('text/plain', (this.matchID));
-      e.preventDefault();
-      document.removeEventListener('copy', null);
-    });
-    document.execCommand('copy');
+  goToHome() {
+    this.router.navigate(['/']);
   }
 
-  startMatch() {
-    this.matchService.startMatch();
-  }
 }
