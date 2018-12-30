@@ -29,6 +29,9 @@ export class AnswerSelectionComponent implements OnInit {
     this.listenToAskingPlayer();
   }
 
+  ngOnInit() {
+  }
+
   private listenToPlayerCards() {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
@@ -45,9 +48,6 @@ export class AnswerSelectionComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-  }
-
   clean() {
     this.selectedAnswers = []
     this.selectedStrings = []
@@ -55,6 +55,7 @@ export class AnswerSelectionComponent implements OnInit {
       this.selectedAnswers.push(0)
     }
     this.currentAnswer = 0
+    this.isFinished = false
   }
 
   conclude() {
