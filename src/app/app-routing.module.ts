@@ -9,6 +9,7 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { UserResolver } from './components/main-menu/user.resolver';
 import { AuthGuard } from './guards/auth.guard';
 import { StartGameComponent } from './components/start-game/start-game.component';
+import { ShowPlayerAnswersComponent } from './components/show-player-answers/show-player-answers.component';
 
 const routes: Routes = [
   { path: 'login',
@@ -33,8 +34,11 @@ const routes: Routes = [
   { path: 'best-answer',
     component: BestAnswerSelectionComponent,
     canActivate: [AuthGuard],
-    canLoad: [AuthGuard]
-  },
+    canLoad: [AuthGuard] },
+  { path: 'all-answers',
+    component: ShowPlayerAnswersComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard] },
   { path: '**',
     component: PageNotFoundComponent }
 ];

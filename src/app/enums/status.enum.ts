@@ -3,5 +3,6 @@ export enum Status {
     waitingQuestion = "waitingQuestion",
     waitingAswers = "waitingAswers",
     selectingBest = "selectingBest",
+    finishingRound = "finishingRound",
     finished = "finished"
 }

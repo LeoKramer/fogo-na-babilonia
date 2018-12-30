@@ -32,7 +32,6 @@ export class BestAnswerSelectionComponent implements OnInit {
   }
 
   confirm() {
-    //mostrar os nomes dos donos das respostas
     this.matchService.selectBest(this.bestAnswers[this.selectedBest]);
   }
 

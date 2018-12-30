@@ -233,7 +233,7 @@ export class MatchService {
                 selectedQuestion: "",
                 answers: []
             }).then(() => {
-                this.router.navigate(['/answers']);
+                this.router.navigate(['/all-answers']);
             })
         })
     }
