@@ -10,7 +10,7 @@ import { MatchService } from 'src/app/services/match.service';
 export class QuestionSelectionComponent implements OnInit {
 
   questions = [];
-
+  selectedQuestion = -1
   constructor(private router: Router,
               private matchService: MatchService) 
   { 
@@ -22,7 +22,14 @@ export class QuestionSelectionComponent implements OnInit {
   ngOnInit() {
   }
 
+  selectQuestion(i: number) {
+    console.log(i)
+    this.selectedQuestion = i;
+  }
+
   confirm() {
-    //this.matchService.selectQuestion(param: String);
+    if (this.selectedQuestion >= 0) {
+      this.matchService.selectQuestion(this.questions[this.selectedQuestion]);
+    }
   }
 }

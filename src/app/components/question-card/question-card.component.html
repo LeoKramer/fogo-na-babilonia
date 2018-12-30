@@ -1,4 +1,4 @@
-<div class="card-default">
+<div [ngClass]="{'card-selected': isSelected, 'card-default': !isSelected}">
   <p class="question-text">
     {{ question }}
   </p>
