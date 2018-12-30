@@ -40,7 +40,8 @@ export class MatchService {
             answerCards: answerCards,
             asking: this.userService.getUserUID(),
             players: [{ player: this.userService.getUserUID(), name: this.userService.getUserName(), image: this.userService.getUserImage(), score: 0, cards: cardsOnHand }],
-            answers: []
+            answers: [],
+            lastBestAnswer: ""
         })
         match.then(data => {
             this.matchID = data['id'];
@@ -226,9 +227,30 @@ export class MatchService {
                 status: Status.waitingQuestion.valueOf(),
                 asking: best.player.valueOf(),
                 selectedQuestion: "",
-                answers: []
+                answers: [],
+                lastBestAnswer: best.player.valueOf()
             }).then(() => {
                 this.router.navigate(['/answers']);
+            })
+        })
+    }
+
+    getAnswers() {
+        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        return new Promise(resolve => {
+            matchData.subscribe(data => {
+                var matchAnswers = data.get('answers');
+                resolve(matchAnswers);
+            })
+        })
+    }
+
+    getBestAnswer() {
+        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        return new Promise(resolve => {
+            matchData.subscribe(data => {
+                var bestAnswer = data.get('lastBestAnswer');
+                resolve(bestAnswer);
             })
         })
     }
