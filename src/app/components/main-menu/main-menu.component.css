@@ -2,3 +2,19 @@
     width: 100%
 }
   
+.button-paste {
+    margin-left: 8px;
+    cursor: pointer;
+    background-color: #333333!important;
+    border: none!important;
+    text-decoration: none!important;
+    outline: none!important;
+    margin-bottom: 4px;
+    width: 16px;
+    height: auto;
+    display: inline-block;
+}
+
+.button-paste:hover {
+    background-color: #444444!important;
+}

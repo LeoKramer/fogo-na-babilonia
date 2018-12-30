@@ -28,6 +28,7 @@ import { StartGameComponent } from './components/start-game/start-game.component
 import { MatchService } from './services/match.service';
 import { BestAnswerCardComponent } from './components/best-answer-card/best-answer-card.component';
 import { ShowPlayerAnswersComponent } from './components/show-player-answers/show-player-answers.component';
+import { ScoreComponent } from './components/score/score.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ShowPlayerAnswersComponent } from './components/show-player-answers/sho
     PageNotFoundComponent,
     StartGameComponent,
     BestAnswerCardComponent,
-    ShowPlayerAnswersComponent
+    ShowPlayerAnswersComponent,
+    ScoreComponent
   ],
   imports: [
     BrowserModule,

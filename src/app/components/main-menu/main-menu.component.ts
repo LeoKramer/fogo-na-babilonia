@@ -16,7 +16,6 @@ export class MainMenuComponent implements OnInit{
 
   user: FirebaseUserModel = new FirebaseUserModel();
   profileForm: FormGroup;
-
   model: any = {};
 
   constructor(
@@ -58,4 +57,8 @@ export class MainMenuComponent implements OnInit{
   createMatch() {
     this.matchService.createMatch();
   }
+
+  // pasteToInput() {
+
+  // }
 }
