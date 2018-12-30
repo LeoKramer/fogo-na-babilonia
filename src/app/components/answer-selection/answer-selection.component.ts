@@ -30,6 +30,7 @@ export class AnswerSelectionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isFinished = false
   }
 
   private listenToPlayerCards() {
@@ -55,7 +56,6 @@ export class AnswerSelectionComponent implements OnInit {
       this.selectedAnswers.push(0)
     }
     this.currentAnswer = 0
-    this.isFinished = false
   }
 
   conclude() {
