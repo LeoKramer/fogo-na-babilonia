@@ -256,4 +256,13 @@ export class MatchService {
             })
         })
     }
+
+    finishMatch() {
+        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        matchData.subscribe(data => {
+            this.db.collection('matches').doc(this.getMatchID()).update({
+                status: Status.finished.valueOf()
+            })
+        })
+    }
 }

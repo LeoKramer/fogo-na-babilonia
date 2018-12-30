@@ -45,7 +45,7 @@ export class ShowPlayerAnswersComponent implements OnInit {
 
   finish() {
     this.router.navigate[('/score')]
-    //TODO: update status
+    this.matchService.finishMatch();
   }
 
   listenToMatchAnswers() {
@@ -91,6 +91,9 @@ export class ShowPlayerAnswersComponent implements OnInit {
       }
       if(data['asking'] == this.userService.getUserUID()){
         this.askingPlayer = true;
+      }
+      if(data['status'] == Status.finished.valueOf()) {
+        this.router.navigate(['/score']);
       }
     })
   }
