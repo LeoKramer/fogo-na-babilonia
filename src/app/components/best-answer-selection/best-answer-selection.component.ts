@@ -15,6 +15,7 @@ export class BestAnswerSelectionComponent implements OnInit {
 
   bestAnswers: AnswerModel[] = [];
   selectedBest = -1;
+  numberOfAnswers : String = ""
 
   constructor(private router: Router,
     private matchService: MatchService,
@@ -40,6 +41,8 @@ export class BestAnswerSelectionComponent implements OnInit {
     matchData.subscribe(data => {
       this.bestAnswers = [];
       this.selectedBest = -1;
+      this.numberOfAnswers = "";
+
       var question = data['selectedQuestion'].split(" ");
       var answers = data['answers'];
       
@@ -74,6 +77,12 @@ export class BestAnswerSelectionComponent implements OnInit {
             status : Status.selectingBest.valueOf()
           })
         }
+        var totalOfPlayers = data['players'].length;
+        var totalOfAnswers = data['answers'].length;
+        this.numberOfAnswers = "Respondidos: " + totalOfAnswers + " de " + (totalOfPlayers - 1);
+      }
+      if(answers == undefined) {
+        this.numberOfAnswers = "Respondidos: 0 de " + (data['answers'].length - 1);
       }
     })
   }

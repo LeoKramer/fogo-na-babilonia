@@ -1,5 +1,6 @@
 <div class="card-container">
   <h4>Selecione a melhor resposta</h4>
+  <h4>{{ numberOfAnswers }} </h4>
   <div *ngFor="let bestAnswer of bestAnswers; let i = index">
     <app-best-answer-card [bestAnswer]="bestAnswer" [isSelected]="selectedBest == i" (click)="selectBest(i)"></app-best-answer-card>
   </div>
