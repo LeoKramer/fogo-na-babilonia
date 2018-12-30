@@ -36,4 +36,9 @@ export class StartGameComponent implements OnInit {
     });
     document.execCommand('copy');
   }
+
+  startMatch() {
+    this.matchService.startMatch();
+
+  }
 }

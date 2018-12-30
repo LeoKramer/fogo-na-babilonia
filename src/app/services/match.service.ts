@@ -162,11 +162,11 @@ export class MatchService {
         })
     }
 
-    selectQuestionCards(questionCards: String[], selectedCards: String) {
-        var matchData = this.db.collection('matches').doc(this.matchID).get();
-        matchData.subscribe(data => {
-            var matchQuestionCards = data.get('questionCards');
-
-        })
+    startMatch() {
+        this.db.collection('matches').doc(this.matchID).update({
+            status: Status.waitingQuestion.valueOf()
+        }).then(() => {
+            this.router.navigate(['/questions']);
+        });
     }
 }

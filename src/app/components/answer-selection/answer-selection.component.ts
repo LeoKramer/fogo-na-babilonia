@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatchService } from 'src/app/services/match.service';
 
 @Component({
   selector: 'app-answer-selection',
@@ -10,7 +11,11 @@ export class AnswerSelectionComponent implements OnInit {
 
   question = 'Aguarde a seleção da pergunta'
   answers = []
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private matchService: MatchService) 
+  { 
+    this.answers = matchService.getCardsOnHand();
+  }
 
   ngOnInit() {
   }

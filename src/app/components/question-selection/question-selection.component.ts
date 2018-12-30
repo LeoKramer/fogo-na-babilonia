@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatchService } from 'src/app/services/match.service';
 
 @Component({
   selector: 'app-question-selection',
@@ -8,8 +9,15 @@ import { Router } from '@angular/router';
 })
 export class QuestionSelectionComponent implements OnInit {
 
-  questions = ['Questão 1', 'Questão 2', 'Questão 3']
-  constructor(private router: Router) { }
+  questions = [];
+
+  constructor(private router: Router,
+              private matchService: MatchService) 
+  { 
+    matchService.getQuestionCards().then(data => {
+      this.questions = data as String[];
+    });
+  }
 
   ngOnInit() {
   }
