@@ -62,6 +62,7 @@ export class AnswerSelectionComponent implements OnInit {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
       this.question = data['selectedQuestion']
+      console.log(this.question)
     })
   }
 
