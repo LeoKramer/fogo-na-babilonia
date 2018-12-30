@@ -100,6 +100,9 @@ export class AnswerSelectionComponent implements OnInit {
       if(data['asking'] == this.userService.getUserUID() && data['status'] == Status.waitingQuestion.valueOf()) {
         this.router.navigate(['/questions']);
       }
+      if(data['status'] == Status.finishingRound.valueOf()) {
+        this.router.navigate(['/all-answers'])
+      }
     })
   }
 }

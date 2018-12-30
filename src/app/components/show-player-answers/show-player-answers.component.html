@@ -1,9 +1,9 @@
 <div class="card-container">
   <h4>As respostas da rodada</h4>
-  <div *ngFor="let answer of answers; let i = index">
-    <app-best-answer-card [bestAnswer]="answer" [isSelected]="selectedBest == i" [showAuthors]="true" (click)="selectBest(i)"></app-best-answer-card>
+  <div *ngFor="let answer of bestAnswers; let i = index">
+    <app-best-answer-card [bestAnswer]="answer" [isSelected]="selectedBest == i" [showAuthors]="true"></app-best-answer-card>
   </div>
-  <div class="button-container">
+  <div *ngIf="askingPlayer" class="button-container">
     <button class="button-left" (click)="finish()">Finalizar partida</button>
     <button class="button-right" (click)="next()">Próxima rodada</button>
 </div>
