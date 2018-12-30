@@ -14,6 +14,7 @@ export class MatchService {
     askingPlayer: string;
     matchStatus: string;
     matchPlayers: Array<any>;
+    currentQuestion: String;
 
     constructor(
         public db: AngularFirestore,
@@ -150,11 +151,15 @@ export class MatchService {
         });
     }
 
+    getCurrentQuestion() {
+        return this.currentQuestion;
+    }
+
     selectQuestion(selectedCard: String) {
         var matchData = this.db.collection('matches').doc(this.matchID).get();
         matchData.subscribe(data => {
             var matchQuestionCards = data.get('questionCards') as String[]
-            matchQuestionCards.splice(matchQuestionCards.indexOf(selectedCard));
+            matchQuestionCards.splice(matchQuestionCards.indexOf(selectedCard), 1);
             matchQuestionCards = this.cardsService.shuffle(matchQuestionCards);
 
             this.db.collection('matches').doc(this.matchID).update({
@@ -162,6 +167,7 @@ export class MatchService {
                 status: Status.waitingAswers.valueOf(),
                 selectedQuestion: selectedCard
             }).then(() => {
+                this.currentQuestion = data['selectedQuestion'];
                 this.router.navigate(['/best-answer']);
             })
         })
@@ -178,12 +184,12 @@ export class MatchService {
             var players = data.get('players');
             for (let player of players) {
                 if (player['player'] == this.userService.getUserUID()) {
-                cardsOnHand = player['cards'] as String[];
-                for(var i = 0; i < answers.length; i++) {
-                    cardsOnHand.splice(cardsOnHand.indexOf(answers[i]));
-                }
-                player['cards'] = cardsOnHand;
-                break;
+                    cardsOnHand = player['cards'] as String[];
+                    for(let answer of answers) {
+                        cardsOnHand.splice(cardsOnHand.indexOf(answer), 1);
+                    }
+                    player['cards'] = cardsOnHand;
+                    break;
                 }
             }
 

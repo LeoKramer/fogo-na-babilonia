@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class AnswerSelectionComponent implements OnInit {
 
   question = ''
-  numberOfAnswers = 3
+  numberOfAnswers = 0
   currentAnswer = 0
   selectedAnswers = []
   selectedStrings = []
@@ -61,7 +61,8 @@ export class AnswerSelectionComponent implements OnInit {
   private listenToQuestionSelected() {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
-      this.question = data['selectedQuestion']
+      this.question = data['selectedQuestion'];
+      this.getNumberOfAnswers();
     })
   }
 
@@ -70,5 +71,19 @@ export class AnswerSelectionComponent implements OnInit {
       this.selectedAnswers[i] = ++this.currentAnswer;
       this.selectedStrings.push(this.answers[i])
     }
+  }
+
+  getNumberOfAnswers() {
+    if(this.question == undefined) {
+      return;
+    }
+
+    this.numberOfAnswers = 0;
+    var question = this.question;
+    var splitted = question.split("-");
+    this.numberOfAnswers = splitted.length - 1;
+
+    if(this.numberOfAnswers <= 0)
+      this.numberOfAnswers = 1;
   }
 }

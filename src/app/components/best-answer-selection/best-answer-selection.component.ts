@@ -11,7 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class BestAnswerSelectionComponent implements OnInit {
 
-  questions = ['Questão 1', 'Questão 2', 'Questão 3']
+  questions = []
   constructor(private router: Router,
     private matchService: MatchService,
     private db: AngularFirestore,
@@ -28,6 +28,35 @@ export class BestAnswerSelectionComponent implements OnInit {
   }
 
   listenToPlayersAnswers() {
-    
+    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
+    matchData.subscribe(data => {
+      var question = data['selectedQuestion'].split(" ");
+
+      var answers = data['answers'];
+      if(answers != undefined) {
+        for(let answer of answers) {
+          var answerString = "";
+          var playerAnswers = answer['answers']
+          var count = 0;
+
+          if(playerAnswers != undefined) {
+            for(let word of question) {
+              if(word == "-") {
+                word = playerAnswers[count].toUpperCase();
+                count++;
+              }
+              answerString += word + " ";
+            }
+            if(count == 0) {
+              answerString += playerAnswers[0];
+            }
+          }
+          this.questions.push(answerString)
+        }
+      }
+      if(data['answers'].length == data['players'].length) {
+
+      }
+    })
   }
 }
