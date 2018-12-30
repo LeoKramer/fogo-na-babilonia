@@ -229,10 +229,7 @@ export class MatchService {
             this.db.collection('matches').doc(this.getMatchID()).update({
                 answerCards: matchAnswerCards,
                 players: players,
-                status: Status.waitingQuestion.valueOf(),
-                asking: best.player.valueOf(),
-                selectedQuestion: "",
-                answers: [],
+                status: Status.finishingRound.valueOf(),
                 lastBestAnswer: best.player.valueOf()
             }).then(() => {
                 this.router.navigate(['/all-answers']);
