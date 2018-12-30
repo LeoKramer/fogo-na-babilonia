@@ -12,4 +12,4 @@ script:
 #   keep-history: true
 #   locar-dir: docs
 #   on:
-#     branch: develop
+#     branch: master
