@@ -21,7 +21,6 @@ export class StartGameComponent implements OnInit {
     var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
     matchData.subscribe(data => {
         this.players = data['players'] as UserModel[];
-        console.log(data['players'])
     })
   }
 
@@ -39,6 +38,5 @@ export class StartGameComponent implements OnInit {
 
   startMatch() {
     this.matchService.startMatch();
-
   }
 }

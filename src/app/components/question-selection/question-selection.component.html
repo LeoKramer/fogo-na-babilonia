@@ -1,6 +1,6 @@
 <div class="card-container">
   <h4>Escolha uma frase</h4>
-  <div *ngFor="let question of questions">
+  <div *ngFor="let question of questions | async">
       <app-question-card [question]="question"></app-question-card>
   </div>
   <button class="button-center" (click)="confirm()">Confirmar</button>

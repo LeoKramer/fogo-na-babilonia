@@ -13,7 +13,6 @@ export class MatchService {
     matchID: string;
     askingPlayer: string;
     matchStatus: string;
-    cardsOnHand: String[];
     matchPlayers: Array<any>;
 
     constructor(
@@ -84,7 +83,6 @@ export class MatchService {
     private startListeners() {
         this.getAskingPlayerFromFirebase();
         this.getMatchStatusFromFirebase();
-        this.getCardsOnHandFromFirebase();
         this.getMatchPlayersFromFirebase();
     }
 
@@ -94,25 +92,6 @@ export class MatchService {
 
     setMatchID(matchID: string) {
         this.matchID = matchID;
-    }
-
-    private getCardsOnHandFromFirebase() {
-        var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
-        matchData.subscribe(data => {
-            var cardsOnHand: String[];
-            var players = data['players'];
-            for (let player of players) {
-                if (player['player'] == this.userService.getUserUID()) {
-                    cardsOnHand = player['cards'];
-                    break;
-                }
-            }
-            this.cardsOnHand = cardsOnHand;
-        })
-    }
-
-    getCardsOnHand() {
-        return this.cardsOnHand;
     }
 
     private getAskingPlayerFromFirebase() {
