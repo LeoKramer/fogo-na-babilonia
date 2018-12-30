@@ -44,7 +44,8 @@ export class ShowPlayerAnswersComponent implements OnInit {
   }
 
   finish() {
-
+    this.router.navigate[('/score')]
+    //TODO: update status
   }
 
   listenToMatchAnswers() {
