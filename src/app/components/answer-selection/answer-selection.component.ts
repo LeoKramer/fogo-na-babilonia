@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatchService } from 'src/app/services/match.service';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { UserService } from 'src/app/services/user.service';
+import { Status } from 'src/app/enums/status.enum';
 
 @Component({
   selector: 'app-answer-selection',
@@ -91,7 +92,7 @@ export class AnswerSelectionComponent implements OnInit {
   listenToAskingPlayer() {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
-      if(data['asking'] == this.userService.getUserUID()) {
+      if(data['asking'] == this.userService.getUserUID() && data['status'] == Status.waitingQuestion.valueOf()) {
         this.router.navigate(['/questions']);
       }
     })
