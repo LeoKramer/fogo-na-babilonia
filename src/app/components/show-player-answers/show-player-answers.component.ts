@@ -81,7 +81,11 @@ export class ShowPlayerAnswersComponent implements OnInit {
             answer: answerString
           }
           
-          this.bestAnswers.push(answerToSave)
+          this.bestAnswers.push(answerToSave);
+
+          if(answerToSave.player == data['lastBestAnswer']) {
+            this.selectedBest = this.bestAnswers.indexOf(answerToSave);
+          }
         }
       }
       if(data['asking'] == this.userService.getUserUID()){
