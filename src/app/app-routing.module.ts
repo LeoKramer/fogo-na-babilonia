@@ -15,7 +15,7 @@ const routes: Routes = [
   component: LoginComponent },
   { path: '',
     component: MainMenuComponent,
-    resolve: { data: UserResolver},
+    resolve: { data: UserResolver },
     canActivate: [AuthGuard],
     canLoad: [AuthGuard] },
   { path: 'start',

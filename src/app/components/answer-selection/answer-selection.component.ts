@@ -17,6 +17,7 @@ export class AnswerSelectionComponent implements OnInit {
   selectedAnswers = []
   selectedStrings = []
   answers = []
+  isFinished = false
   constructor(private router: Router,
     private matchService: MatchService,
     private db: AngularFirestore,
@@ -56,7 +57,10 @@ export class AnswerSelectionComponent implements OnInit {
   }
 
   conclude() {
-    this.matchService.registerAnswers(this.selectedStrings)
+    if (this.currentAnswer == this.numberOfAnswers && !this.isFinished) {
+      this.matchService.registerAnswers(this.selectedStrings)
+      this.isFinished = !this.isFinished
+    }
   }
   
   private listenToQuestionSelected() {

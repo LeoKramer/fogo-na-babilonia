@@ -43,7 +43,7 @@ export class MatchService {
             answers: []
         })
         match.then(data => {
-            this.matchID = data['id'];
+            this.setMatchID(data['id'])
             this.startListeners();
             this.router.navigate(['/start']);
         })
@@ -90,15 +90,20 @@ export class MatchService {
     }
 
     getMatchID() {
+        if (!this.matchID) {
+            this.matchID = localStorage.getItem("matchID");
+        }
+
         return this.matchID;
     }
 
     setMatchID(matchID: string) {
         this.matchID = matchID;
+        localStorage.setItem("matchID", matchID)
     }
 
     private getAskingPlayerFromFirebase() {
-        var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).valueChanges();
         return matchData.subscribe(data => {
             this.askingPlayer = data['asking'];
         })
@@ -109,7 +114,7 @@ export class MatchService {
     }
 
     private getMatchStatusFromFirebase() {
-        var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).valueChanges();
         matchData.subscribe(data => {
             this.matchStatus = data['status'];
         })
@@ -120,7 +125,7 @@ export class MatchService {
     }
 
     private getMatchPlayersFromFirebase() {
-        var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).valueChanges();
         matchData.subscribe(data => {
             this.matchPlayers = data['players'];
         })
@@ -131,7 +136,7 @@ export class MatchService {
     }
 
     getQuestionCards() {
-        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).get();
         return new Promise(resolve => {
             matchData.subscribe(data => {
                 var matchQuestionCards = data.get('questionCards');
@@ -145,7 +150,7 @@ export class MatchService {
     }
 
     startMatch() {
-        this.db.collection('matches').doc(this.matchID).update({
+        this.db.collection('matches').doc(this.getMatchID()).update({
             status: Status.waitingQuestion.valueOf()
         }).then(() => {
             this.router.navigate(['/questions']);
@@ -157,13 +162,13 @@ export class MatchService {
     }
 
     selectQuestion(selectedCard: String) {
-        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).get();
         matchData.subscribe(data => {
             var matchQuestionCards = data.get('questionCards') as String[]
             matchQuestionCards.splice(matchQuestionCards.indexOf(selectedCard), 1);
             matchQuestionCards = this.cardsService.shuffle(matchQuestionCards);
 
-            this.db.collection('matches').doc(this.matchID).update({
+            this.db.collection('matches').doc(this.getMatchID()).update({
                 questionCards: matchQuestionCards,
                 status: Status.waitingAswers.valueOf(),
                 selectedQuestion: selectedCard
@@ -175,7 +180,7 @@ export class MatchService {
     }
 
     registerAnswers(answers: String[]) {
-        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).get();
         matchData.subscribe(data => {
             var answersArray = data.get('answers');
             var playerAnswer = { player: this.userService.getUserUID(), name: this.userService.getUserName(), answers: answers };
@@ -194,7 +199,7 @@ export class MatchService {
                 }
             }
 
-            this.db.collection('matches').doc(this.matchID).update({
+            this.db.collection('matches').doc(this.getMatchID()).update({
                 answers: answersArray,
                 players: players
             })
@@ -202,7 +207,7 @@ export class MatchService {
     }
 
     selectBest(best: AnswerModel) {
-        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).get();
         matchData.subscribe(data => {
             var matchAnswerCards = data.get('answerCards');
 
@@ -220,7 +225,7 @@ export class MatchService {
                 }
             }
 
-            this.db.collection('matches').doc(this.matchID).update({
+            this.db.collection('matches').doc(this.getMatchID()).update({
                 answerCards: matchAnswerCards,
                 players: players,
                 status: Status.waitingQuestion.valueOf(),
