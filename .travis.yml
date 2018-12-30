@@ -4,7 +4,7 @@ node_js:
 install:
   - npm install
 script:
-  - ng build --prod --output-path docs --base-href && cd docs && cp index.html 404.html && cd ..
+  - ng build --prod --output-path docs --base-href && cp -a /assets/. /docs/ && cd docs && cp index.html 404.html && cd ..
 # deploy:
 #   provider: pages
 #   skip-cleanup: true
