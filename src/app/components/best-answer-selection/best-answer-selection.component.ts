@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class BestAnswerSelectionComponent implements OnInit {
 
   questions = []
+  selectedBest = -1
   constructor(private router: Router,
     private matchService: MatchService,
     private db: AngularFirestore,
@@ -23,8 +24,12 @@ export class BestAnswerSelectionComponent implements OnInit {
   ngOnInit() {
   }
 
+  selectBest(i: number) {
+    this.selectedBest = i;
+  }
+
   confirm() {
-    window.alert("Confirm")
+    window.alert(this.selectedBest)
   }
 
   listenToPlayersAnswers() {
