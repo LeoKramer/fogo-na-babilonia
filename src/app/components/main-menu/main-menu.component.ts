@@ -52,7 +52,6 @@ export class MainMenuComponent implements OnInit{
   }
 
   onSubmit() {
-    console.log("Conectar na partida " + this.model.matchID);
     this.matchService.joinMatch(String(this.model.matchID));
   }
 

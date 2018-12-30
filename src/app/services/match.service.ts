@@ -37,7 +37,8 @@ export class MatchService {
             questionCards: questionCards,
             answerCards: answerCards,
             asking: this.userService.getUserName(),
-            players: [{ player: this.userService.getUserUID(), name: this.userService.getUserName(), image: this.userService.getUserImage(), score: 0, cards: cardsOnHand }]
+            players: [{ player: this.userService.getUserUID(), name: this.userService.getUserName(), image: this.userService.getUserImage(), score: 0, cards: cardsOnHand }],
+            answers: []
         })
         match.then(data => {
             this.matchID = data['id'];
@@ -160,6 +161,8 @@ export class MatchService {
                 questionCards: matchQuestionCards,
                 status: Status.waitingAswers.valueOf(),
                 selectedQuestion: selectedCard
+            }).then(() => {
+                this.router.navigate(['/best-answer']);
             })
         })
     }
@@ -172,7 +175,7 @@ export class MatchService {
             answersArray.push(playerAnswer);
 
             var cardsOnHand: String[];
-            var players = data['players'];
+            var players = data.get('players');
             for (let player of players) {
                 if (player['player'] == this.userService.getUserUID()) {
                 cardsOnHand = player['cards'] as String[];
