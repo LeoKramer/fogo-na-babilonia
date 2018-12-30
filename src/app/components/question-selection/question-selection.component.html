@@ -1,7 +1,7 @@
 <div class="card-container">
   <h4>Escolha uma frase</h4>
   <div *ngFor="let question of questions; let i = index">
-      <app-question-card [question]="question" [isSelected]="selectedQuestion == i" (click)="selectQuestion(i)"></app-question-card>
+      <app-question-card style="cursor: pointer;" [question]="question" [isSelected]="selectedQuestion == i" (click)="selectQuestion(i)"></app-question-card>
   </div>
   <button class="button-center" (click)="confirm()">Confirmar</button>
 </div>

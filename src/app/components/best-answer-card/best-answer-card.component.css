@@ -1,5 +1,4 @@
-.card-default,
-.card-selected {
+.card-default {
   cursor: pointer;
 }
 

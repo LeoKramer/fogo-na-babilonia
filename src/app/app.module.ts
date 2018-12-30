@@ -27,6 +27,7 @@ import { CardsService } from './services/cards.services';
 import { StartGameComponent } from './components/start-game/start-game.component';
 import { MatchService } from './services/match.service';
 import { BestAnswerCardComponent } from './components/best-answer-card/best-answer-card.component';
+import { ShowPlayerAnswersComponent } from './components/show-player-answers/show-player-answers.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { BestAnswerCardComponent } from './components/best-answer-card/best-answ
     MainMenuComponent,
     PageNotFoundComponent,
     StartGameComponent,
-    BestAnswerCardComponent
+    BestAnswerCardComponent,
+    ShowPlayerAnswersComponent
   ],
   imports: [
     BrowserModule,

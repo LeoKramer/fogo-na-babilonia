@@ -18,6 +18,7 @@ export class AnswerSelectionComponent implements OnInit {
   selectedAnswers = []
   selectedStrings = []
   answers = []
+  isFinished = false
   constructor(private router: Router,
     private matchService: MatchService,
     private db: AngularFirestore,
@@ -26,6 +27,9 @@ export class AnswerSelectionComponent implements OnInit {
     this.listenToPlayerCards();
     this.listenToQuestionSelected();
     this.listenToAskingPlayer();
+  }
+
+  ngOnInit() {
   }
 
   private listenToPlayerCards() {
@@ -44,9 +48,6 @@ export class AnswerSelectionComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-  }
-
   clean() {
     this.selectedAnswers = []
     this.selectedStrings = []
@@ -54,10 +55,14 @@ export class AnswerSelectionComponent implements OnInit {
       this.selectedAnswers.push(0)
     }
     this.currentAnswer = 0
+    this.isFinished = false
   }
 
   conclude() {
-    this.matchService.registerAnswers(this.selectedStrings)
+    if (this.currentAnswer == this.numberOfAnswers && !this.isFinished) {
+      this.matchService.registerAnswers(this.selectedStrings)
+      this.isFinished = !this.isFinished
+    }
   }
   
   private listenToQuestionSelected() {
