@@ -47,9 +47,9 @@ export class AnswerSelectionComponent implements OnInit {
 
   clean() {
     this.selectedAnswers = []
+    this.selectedStrings = []
     for(let answer of this.answers) {
       this.selectedAnswers.push(0)
-      this.selectedStrings.push(answer)
     }
     this.currentAnswer = 0
   }
@@ -68,6 +68,7 @@ export class AnswerSelectionComponent implements OnInit {
   selectCard(i: number) {
     if (this.selectedAnswers[i] == 0 && this.currentAnswer < this.numberOfAnswers ) {
       this.selectedAnswers[i] = ++this.currentAnswer;
+      this.selectedStrings.push(this.answers[i])
     }
   }
 }
