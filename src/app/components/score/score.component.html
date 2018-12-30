@@ -1,10 +1,13 @@
 <div class="card-container">
   <h5>Pontuação:</h5>
-  <div *ngFor="let player of players">
+  <div *ngFor="let player of players; let i = index">
+    <img *ngIf="i == 0" style="display:inline-block;width:32px;height:32px;margin-right:8px;"
+      src="../../assets/winner.svg" alt="">
+    <div *ngIf="i != 0" style="display:inline-block;width:32px;height:32px;margin-right:8px;"></div>
     <img style="display:inline-block;width:32px;height:32px;border-radius:16px;margin-right:8px;background-color:lightgray;"
       [src]="player.image" alt="">
     <p style="display:inline-block;">{{ player.name }}</p>
-    <p style="display:inline-block;">{{ player.score }}</p>
+    <p style="display:inline-block;margin-left:16px;">Pontos: <strong>{{ player.score }}</strong></p>
   </div>
   <button class="button-center" (click)="goToHome()">Voltar para home</button>
 </div>

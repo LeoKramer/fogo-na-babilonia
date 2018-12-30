@@ -10,6 +10,7 @@ import { UserResolver } from './components/main-menu/user.resolver';
 import { AuthGuard } from './guards/auth.guard';
 import { StartGameComponent } from './components/start-game/start-game.component';
 import { ShowPlayerAnswersComponent } from './components/show-player-answers/show-player-answers.component';
+import { ScoreComponent } from './components/score/score.component';
 
 const routes: Routes = [
   { path: 'login',
@@ -39,6 +40,11 @@ const routes: Routes = [
     component: ShowPlayerAnswersComponent,
     canActivate: [AuthGuard],
     canLoad: [AuthGuard] },
+  { path: 'score',
+    component: ScoreComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
+    resolve: { data: UserResolver } },
   { path: '**',
     component: PageNotFoundComponent }
 ];

@@ -24,6 +24,7 @@ export class ScoreComponent implements OnInit {
     var matchData = this.db.collection('matches').doc(this.matchID).valueChanges();
     matchData.subscribe(data => {
         this.players = data['players'] as UserModel[];
+        this.players.sort(function(a, b){return b.score - a.score});
     })
   }
 
