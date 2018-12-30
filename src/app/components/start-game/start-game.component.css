@@ -1,0 +1,19 @@
+.button-copy {
+  margin-left: 8px;
+  padding: 0;
+  cursor: pointer;
+  background-color: #333333!important;
+  border: none!important;
+  text-decoration: none!important;
+  outline: none!important;
+}
+
+.button-copy:hover {
+  background-color: #444444!important;
+}
+
+.button-copy img {
+  margin-bottom: 4px;
+  width: 16px;
+  height: auto;
+}

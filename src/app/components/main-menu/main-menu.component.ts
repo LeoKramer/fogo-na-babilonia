@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { CardsService } from '../../services/cards.services';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FirebaseUserModel } from '../../models/user.model';
+import { FirebaseUserModel } from '../../models/firebase.user.model';
 import { MatchService } from 'src/app/services/match.service';
 
 @Component({

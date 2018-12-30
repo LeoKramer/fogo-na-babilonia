@@ -1,13 +1,15 @@
-export class FirebaseUserModel {
+export class UserModel {
   image: string;
   name: string;
-  uid: string;
-  provider: string;
+  player: string;
+  score: number;
+  cards: String[]
 
   constructor(){
     this.image = "";
     this.name = "";
-    this.uid = "";
-    this.provider = "";
+    this.player = "";
+    this.score = 0;
+    this.cards = [];
   }
 }

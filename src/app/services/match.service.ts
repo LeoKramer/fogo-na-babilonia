@@ -2,10 +2,9 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-import { FirebaseUserModel } from '../models/user.model';
-import { UserService } from './user.service';
+import { FirebaseUserModel } from '../models/firebase.user.model';import { UserService } from './user.service';
 import { CardsService } from './cards.services';
-import { Status} from './../enum/status.enum'
+import { Status } from './../enums/status.enum'
 import { Router } from '@angular/router';
 
 @Injectable()
