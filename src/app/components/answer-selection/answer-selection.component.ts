@@ -24,6 +24,7 @@ export class AnswerSelectionComponent implements OnInit {
   {
     this.listenToPlayerCards();
     this.listenToQuestionSelected();
+    this.listenToAskingPlayer();
   }
 
   private listenToPlayerCards() {
@@ -85,5 +86,14 @@ export class AnswerSelectionComponent implements OnInit {
 
     if(this.numberOfAnswers <= 0)
       this.numberOfAnswers = 1;
+  }
+
+  listenToAskingPlayer() {
+    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
+    matchData.subscribe(data => {
+      if(data['asking'] == this.userService.getUserUID()) {
+        this.router.navigate(['/questions']);
+      }
+    })
   }
 }

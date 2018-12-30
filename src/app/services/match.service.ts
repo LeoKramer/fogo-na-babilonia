@@ -6,6 +6,7 @@ import { FirebaseUserModel } from '../models/firebase.user.model';import { UserS
 import { CardsService } from './cards.services';
 import { Status } from './../enums/status.enum'
 import { Router } from '@angular/router';
+import { AnswerModel } from '../models/answer.model';
 
 @Injectable()
 export class MatchService {
@@ -37,7 +38,7 @@ export class MatchService {
             status: Status.waitingPlayers.valueOf(),
             questionCards: questionCards,
             answerCards: answerCards,
-            asking: this.userService.getUserName(),
+            asking: this.userService.getUserUID(),
             players: [{ player: this.userService.getUserUID(), name: this.userService.getUserName(), image: this.userService.getUserImage(), score: 0, cards: cardsOnHand }],
             answers: []
         })
@@ -196,6 +197,38 @@ export class MatchService {
             this.db.collection('matches').doc(this.matchID).update({
                 answers: answersArray,
                 players: players
+            })
+        })
+    }
+
+    selectBest(best: AnswerModel) {
+        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        matchData.subscribe(data => {
+            var matchAnswerCards = data.get('answerCards');
+
+            var players = data.get('players');
+            for(let player of players) {
+                //search for the winner and increase score
+                if(player['player'] == best.player) {
+                    player['score'] += 1;
+                }
+                //make the cards on hand be 5 again
+                var cardsOnHand = player['cards'];
+                var count = 5 - cardsOnHand.length;
+                for(var i = 0; i < count; i++) {
+                    cardsOnHand.push(matchAnswerCards.pop())
+                }
+            }
+
+            this.db.collection('matches').doc(this.matchID).update({
+                answerCards: matchAnswerCards,
+                players: players,
+                status: Status.waitingQuestion.valueOf(),
+                asking: best.player.valueOf(),
+                selectedQuestion: "",
+                answers: []
+            }).then(() => {
+                this.router.navigate(['/answers']);
             })
         })
     }

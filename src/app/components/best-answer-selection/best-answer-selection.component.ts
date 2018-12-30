@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { MatchService } from 'src/app/services/match.service';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { UserService } from 'src/app/services/user.service';
+import { AnswerModel } from '../../models/answer.model';
+import { Status } from 'src/app/enums/status.enum';
 
 @Component({
   selector: 'app-best-answer-selection',
@@ -11,8 +13,9 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class BestAnswerSelectionComponent implements OnInit {
 
-  questions = []
-  selectedBest = -1
+  questions: AnswerModel[] = [];
+  selectedBest = -1;
+
   constructor(private router: Router,
     private matchService: MatchService,
     private db: AngularFirestore,
@@ -29,15 +32,18 @@ export class BestAnswerSelectionComponent implements OnInit {
   }
 
   confirm() {
-    window.alert(this.selectedBest)
+    //mostrar os nomes dos donos das respostas
+    this.matchService.selectBest(this.questions[this.selectedBest]);
   }
 
   listenToPlayersAnswers() {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
+      this.questions = [];
+      this.selectedBest = -1;
       var question = data['selectedQuestion'].split(" ");
-
       var answers = data['answers'];
+      
       if(answers != undefined) {
         for(let answer of answers) {
           var answerString = "";
@@ -53,14 +59,22 @@ export class BestAnswerSelectionComponent implements OnInit {
               answerString += word + " ";
             }
             if(count == 0) {
-              answerString += playerAnswers[0];
+              answerString += playerAnswers[0].toUpperCase();
             }
           }
-          this.questions.push(answerString)
-        }
-      }
-      if(data['answers'].length == data['players'].length) {
+          var answerToSave: AnswerModel = {
+            name: answer['name'],
+            player: answer['player'],
+            answer: answerString
+          }
 
+          this.questions.push(answerToSave)
+        }
+        if(data['answers'].length == data['players'].length) {
+          this.db.collection('matches').doc(this.matchService.getMatchID()).update({
+            status : Status.selectingBest.valueOf()
+          })
+        }
       }
     })
   }
