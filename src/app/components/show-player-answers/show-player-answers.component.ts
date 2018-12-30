@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatchService } from 'src/app/services/match.service';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-show-player-answers',
@@ -7,7 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShowPlayerAnswersComponent implements OnInit {
 
-  constructor() { }
+  bestAnswers = [];
+
+  constructor(private router: Router,
+              private matchService: MatchService,
+              private db: AngularFirestore) 
+  { 
+    this.listenToMatchAnswers();
+  }
 
   ngOnInit() {
   }
@@ -18,5 +28,12 @@ export class ShowPlayerAnswersComponent implements OnInit {
 
   finish() {
 
+  }
+
+  listenToMatchAnswers() {
+    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
+    matchData.subscribe(data => {
+      this.bestAnswers = [];
+    })
   }
 }
