@@ -148,4 +148,46 @@ export class MatchService {
             this.router.navigate(['/questions']);
         });
     }
+
+    selectQuestion(selectedCard: String) {
+        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        matchData.subscribe(data => {
+            var matchQuestionCards = data.get('questionCards') as String[]
+            matchQuestionCards.splice(matchQuestionCards.indexOf(selectedCard));
+            matchQuestionCards = this.cardsService.shuffle(matchQuestionCards);
+
+            this.db.collection('matches').doc(this.matchID).update({
+                questionCards: matchQuestionCards,
+                status: Status.waitingAswers.valueOf(),
+                selectedQuestion: selectedCard
+            })
+        })
+    }
+
+    registerAnswers(answers: String[]) {
+        var matchData = this.db.collection('matches').doc(this.matchID).get();
+        matchData.subscribe(data => {
+            var answersArray = data.get('answers');
+            var playerAnswer = { player: this.userService.getUserUID(), name: this.userService.getUserName(), answers: answers };
+            answersArray.push(playerAnswer);
+
+            var cardsOnHand: String[];
+            var players = data['players'];
+            for (let player of players) {
+                if (player['player'] == this.userService.getUserUID()) {
+                cardsOnHand = player['cards'] as String[];
+                for(var i = 0; i < answers.length; i++) {
+                    cardsOnHand.splice(cardsOnHand.indexOf(answers[i]));
+                }
+                player['cards'] = cardsOnHand;
+                break;
+                }
+            }
+
+            this.db.collection('matches').doc(this.matchID).update({
+                answers: answersArray,
+                players: players
+            })
+        })
+    }
 }
