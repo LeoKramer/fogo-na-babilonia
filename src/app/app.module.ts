@@ -26,6 +26,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { CardsService } from './services/cards.services';
 import { StartGameComponent } from './components/start-game/start-game.component';
 import { MatchService } from './services/match.service';
+import { BestAnswerCardComponent } from './components/best-answer-card/best-answer-card.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MatchService } from './services/match.service';
     LoginComponent,
     MainMenuComponent,
     PageNotFoundComponent,
-    StartGameComponent
+    StartGameComponent,
+    BestAnswerCardComponent
   ],
   imports: [
     BrowserModule,

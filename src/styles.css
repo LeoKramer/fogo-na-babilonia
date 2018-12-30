@@ -17,12 +17,16 @@ body {
   border: 3px solid #ffffff;
 }
 
+.card-text {
+  margin: 16px;
+}
+
 .card-selected,
 .card-default {
   margin: auto;
   margin-bottom: 16px;
   width: (100% - 6px);
-  height: 80px;
+  min-height: 80px;
   background-color: #1a1a1a;
   color: #ffffff;
   border-radius: 3px;

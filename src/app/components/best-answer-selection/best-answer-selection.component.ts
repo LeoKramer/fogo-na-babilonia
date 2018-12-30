@@ -13,7 +13,7 @@ import { Status } from 'src/app/enums/status.enum';
 })
 export class BestAnswerSelectionComponent implements OnInit {
 
-  questions: AnswerModel[] = [];
+  bestAnswers: AnswerModel[] = [];
   selectedBest = -1;
 
   constructor(private router: Router,
@@ -33,13 +33,13 @@ export class BestAnswerSelectionComponent implements OnInit {
 
   confirm() {
     //mostrar os nomes dos donos das respostas
-    this.matchService.selectBest(this.questions[this.selectedBest]);
+    this.matchService.selectBest(this.bestAnswers[this.selectedBest]);
   }
 
   listenToPlayersAnswers() {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
-      this.questions = [];
+      this.bestAnswers = [];
       this.selectedBest = -1;
       var question = data['selectedQuestion'].split(" ");
       var answers = data['answers'];
@@ -67,8 +67,8 @@ export class BestAnswerSelectionComponent implements OnInit {
             player: answer['player'],
             answer: answerString
           }
-
-          this.questions.push(answerToSave)
+          
+          this.bestAnswers.push(answerToSave)
         }
         if(data['answers'].length == data['players'].length) {
           this.db.collection('matches').doc(this.matchService.getMatchID()).update({

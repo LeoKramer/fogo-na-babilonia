@@ -1,7 +1,7 @@
 <div class="card-container">
   <h4>Selecione a melhor resposta</h4>
-  <div *ngFor="let question of questions; let i = index">
-    <app-question-card [question]="question.answer" [isSelected]="selectedBest == i" (click)="selectBest(i)"></app-question-card>
+  <div *ngFor="let bestAnswer of bestAnswers; let i = index">
+    <app-best-answer-card [bestAnswer]="bestAnswer" [isSelected]="selectedBest == i" (click)="selectBest(i)"></app-best-answer-card>
   </div>
   <button class="button-center" (click)="confirm()">Confirmar</button>
 </div>
