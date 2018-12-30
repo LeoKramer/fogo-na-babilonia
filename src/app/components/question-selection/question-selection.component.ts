@@ -23,7 +23,6 @@ export class QuestionSelectionComponent implements OnInit {
   }
 
   selectQuestion(i: number) {
-    console.log(i)
     this.selectedQuestion = i;
   }
 
