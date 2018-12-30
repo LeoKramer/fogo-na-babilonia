@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 })
 export class AnswerSelectionComponent implements OnInit {
 
-  question = 'Teste'
-  answers = ['Card 1 suaisad asdhuidh', 'Card 2', 'Card 3']
+  question = 'Aguarde a seleção da pergunta'
+  answers = []
   constructor(private router: Router) { }
 
   ngOnInit() {
