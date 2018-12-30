@@ -1,3 +1,5 @@
+<!-- <h4 *ngIf="question == ''">Aguarde a seleção da pergunta...</h4>
+<div *ngIf="question != ''" class="card-container"> -->
 <div class="card-container">
     <h4>Frase</h4>
     <app-question-card [question]="question"></app-question-card>
@@ -5,8 +7,8 @@
     <h4>Escolha a(s) resposta(s) na ordem de preenchimento das lacunas</h4>
     <p>A ordem de escolha dever ser a ordem de preenchimento das lacunas.</p>
     <p>Use o botão limpar para desfazer todas as seleções.</p>
-    <div *ngFor="let answer of answers">
-        <app-answer-card [answer]="answer"></app-answer-card>
+    <div *ngFor="let answer of answers; let i = index">
+        <app-answer-card [answer]="answer" [selectionNumber]="selectedAnswers[i]" (click)="selectCard(i)" ></app-answer-card>
     </div>
     <div class="button-container">
         <button class="button-left" (click)="clean()">Limpar</button>

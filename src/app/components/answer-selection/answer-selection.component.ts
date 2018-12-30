@@ -11,7 +11,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class AnswerSelectionComponent implements OnInit {
 
-  question = 'Aguarde a seleção da pergunta'
+  question = ''
+  numberOfAnswers = 3
+  currentAnswer = 0
+  selectedAnswers = []
   answers = []
   constructor(private router: Router,
     private matchService: MatchService,
@@ -29,6 +32,7 @@ export class AnswerSelectionComponent implements OnInit {
         }
       }
       this.answers = cardsOnHand;
+      this.clean()
     })
   }
 
@@ -36,10 +40,20 @@ export class AnswerSelectionComponent implements OnInit {
   }
 
   clean() {
-    window.alert("Clean")
+    this.selectedAnswers = []
+    for(let answer of this.answers) {
+      this.selectedAnswers.push(0)
+    }
+    this.currentAnswer = 0
   }
 
   conclude() {
     window.alert("Conclude")
+  }
+
+  selectCard(i: number) {
+    if (this.selectedAnswers[i] == 0 && this.currentAnswer < this.numberOfAnswers ) {
+      this.selectedAnswers[i] = ++this.currentAnswer;
+    }
   }
 }

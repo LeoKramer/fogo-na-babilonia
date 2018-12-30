@@ -2,7 +2,7 @@
   <div class="text-box">
       <p>{{ answer }}</p>
   </div>
-  <div class="number-box">
+  <div *ngIf="selectionNumber != 0" class="number-box">
     <p>{{ selectionNumber }}</p>
   </div>
 </div>
