@@ -6,6 +6,7 @@ import * as firebase from 'firebase/app';
 export class AuthService {
 
   isAuthenticatedEmitter = new EventEmitter<boolean>();
+  isAuthenticated = false
   constructor(
    public afAuth: AngularFireAuth
   ){}
@@ -16,7 +17,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        this.isAuthenticatedEmitter.emit(true)
+        this.setAuthenticationStatus(true)
         resolve(res);
       }, err => {
         console.log(err);
@@ -31,7 +32,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        this.isAuthenticatedEmitter.emit(true)
+        this.setAuthenticationStatus(true)
         resolve(res);
       }, err => {
         console.log(err);
@@ -48,7 +49,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        this.isAuthenticatedEmitter.emit(true)
+        this.setAuthenticationStatus(true)
         resolve(res);
       }, err => {
         console.log(err);
@@ -61,7 +62,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then(res => {
-        this.isAuthenticatedEmitter.emit(true)
+        this.setAuthenticationStatus(true)
         resolve(res);
       }, err => reject(err))
     })
@@ -71,7 +72,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
-        this.isAuthenticatedEmitter.emit(true)
+        this.setAuthenticationStatus(true)
         resolve(res);
       }, err => reject(err))
     })
@@ -81,12 +82,21 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       if(firebase.auth().currentUser){
         this.afAuth.auth.signOut()
-        this.isAuthenticatedEmitter.emit(false)
+        this.setAuthenticationStatus(false)
         resolve();
       }
       else{
         reject();
       }
     });
+  }
+
+  private setAuthenticationStatus(status: boolean) {
+    this.isAuthenticated = status
+    this.isAuthenticatedEmitter.emit(status)
+  }
+
+  getAuthenticationStatus() {
+    return this.isAuthenticated
   }
 }

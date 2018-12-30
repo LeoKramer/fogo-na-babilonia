@@ -31,28 +31,28 @@ export class LoginComponent {
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then(res => {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/']);
     })
   }
 
   tryTwitterLogin(){
     this.authService.doTwitterLogin()
     .then(res => {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/']);
     })
   }
 
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then(res => {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/']);
     })
   }
 
   tryLogin(value){
     this.authService.doLogin(value)
     .then(res => {
-      this.router.navigate(['/menu']);
+      this.router.navigate(['/']);
     }, err => {
       console.log(err);
       this.errorMessage = err.message;

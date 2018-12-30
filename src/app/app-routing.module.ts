@@ -11,14 +11,32 @@ import { AuthGuard } from './guards/auth.guard';
 import { StartGameComponent } from './components/start-game/start-game.component';
 
 const routes: Routes = [
-  { path: 'start', component: StartGameComponent },
-  { path: 'answers', component: AnswerSelectionComponent },
-  { path: 'questions', component: QuestionSelectionComponent },
-  { path: 'best-answer', component: BestAnswerSelectionComponent },
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-  { path: 'menu', component: MainMenuComponent,  resolve: { data: UserResolver}},
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'login',
+  component: LoginComponent },
+  { path: '',
+    component: MainMenuComponent,
+    resolve: { data: UserResolver},
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard] },
+  { path: 'start',
+    component: StartGameComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard] },
+  { path: 'answers',
+    component: AnswerSelectionComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard] },
+  { path: 'questions',
+    component: QuestionSelectionComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard] },
+  { path: 'best-answer',
+    component: BestAnswerSelectionComponent,
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard]
+  },
+  { path: '**',
+    component: PageNotFoundComponent }
 ];
 
 @NgModule({
