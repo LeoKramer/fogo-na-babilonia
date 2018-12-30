@@ -15,6 +15,7 @@ export class AnswerSelectionComponent implements OnInit {
   numberOfAnswers = 3
   currentAnswer = 0
   selectedAnswers = []
+  selectedStrings = []
   answers = []
   constructor(private router: Router,
     private matchService: MatchService,
@@ -48,12 +49,13 @@ export class AnswerSelectionComponent implements OnInit {
     this.selectedAnswers = []
     for(let answer of this.answers) {
       this.selectedAnswers.push(0)
+      this.selectedStrings.push(answer)
     }
     this.currentAnswer = 0
   }
 
   conclude() {
-    window.alert("Conclude")
+    this.matchService.registerAnswers(this.selectedStrings)
   }
   
   private listenToQuestionSelected() {
