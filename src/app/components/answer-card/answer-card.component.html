@@ -1,4 +1,4 @@
-<div class="card-default">
+<div [ngClass]="{'card-selected': (selectionNumber != 0), 'card-default': !(selectionNumber != 0)}">
   <div class="text-box">
       <p>{{ answer }}</p>
   </div>

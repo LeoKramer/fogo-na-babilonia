@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { UserService } from './user.service';
 
 @Injectable()
 export class AuthService {
@@ -8,7 +9,8 @@ export class AuthService {
   isAuthenticatedEmitter = new EventEmitter<boolean>();
   isAuthenticated = false
   constructor(
-   public afAuth: AngularFireAuth
+   public afAuth: AngularFireAuth,
+   public userService: UserService
   ){}
 
   doFacebookLogin(){
@@ -17,7 +19,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        this.setAuthenticationStatus(true)
+        this.isAuthenticatedEmitter.emit(true)
         resolve(res);
       }, err => {
         console.log(err);
@@ -32,7 +34,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        this.setAuthenticationStatus(true)
+        this.isAuthenticatedEmitter.emit(true)
         resolve(res);
       }, err => {
         console.log(err);
@@ -49,7 +51,7 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        this.setAuthenticationStatus(true)
+        this.isAuthenticatedEmitter.emit(true)
         resolve(res);
       }, err => {
         console.log(err);
@@ -62,7 +64,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
       .then(res => {
-        this.setAuthenticationStatus(true)
+        this.isAuthenticatedEmitter.emit(true)
         resolve(res);
       }, err => reject(err))
     })
@@ -72,7 +74,7 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
-        this.setAuthenticationStatus(true)
+        this.isAuthenticatedEmitter.emit(true)
         resolve(res);
       }, err => reject(err))
     })
@@ -82,7 +84,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       if(firebase.auth().currentUser){
         this.afAuth.auth.signOut()
-        this.setAuthenticationStatus(false)
+        this.isAuthenticatedEmitter.emit(false)
         resolve();
       }
       else{
@@ -91,12 +93,16 @@ export class AuthService {
     });
   }
 
-  private setAuthenticationStatus(status: boolean) {
-    this.isAuthenticated = status
-    this.isAuthenticatedEmitter.emit(status)
-  }
-
   getAuthenticationStatus() {
-    return this.isAuthenticated
+    return new Promise((resolve, reject) => {
+      this.userService.getCurrentUser()
+      .then(user => {
+        this.isAuthenticatedEmitter.emit(true)
+        return resolve(true);
+      }, err => {
+        this.isAuthenticatedEmitter.emit(false)
+        return resolve(false);
+      })
+    })
   }
 }
