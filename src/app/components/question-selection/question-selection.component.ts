@@ -23,6 +23,6 @@ export class QuestionSelectionComponent implements OnInit {
   }
 
   confirm() {
-    window.alert("Confirm")
+    //this.matchService.selectQuestion(param: String);
   }
 }

@@ -21,7 +21,12 @@ export class AnswerSelectionComponent implements OnInit {
     private db: AngularFirestore,
     private userService: UserService) 
   {
-    var matchData = this.db.collection('matches').doc(matchService.getMatchID()).valueChanges();
+    this.listenToPlayerCards();
+    this.listenToQuestionSelected();
+  }
+
+  private listenToPlayerCards() {
+    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
       var cardsOnHand: String[];
       var players = data['players'];
@@ -49,6 +54,13 @@ export class AnswerSelectionComponent implements OnInit {
 
   conclude() {
     window.alert("Conclude")
+  }
+  
+  private listenToQuestionSelected() {
+    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
+    matchData.subscribe(data => {
+      this.question = data['selectedQuestion']
+    })
   }
 
   selectCard(i: number) {
