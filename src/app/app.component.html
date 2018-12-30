@@ -1,4 +1,7 @@
-<app-navbar></app-navbar>
+<nav class="navbar">
+  <h3 style="margin:auto;">Fogo na Babilônia</h3>
+  <button *ngIf="showMenu" type="button" (click)="logout()" class="btn btn-link" style="float:left;">Deslogar</button>
+</nav>
 <section>
   <router-outlet></router-outlet>
 </section>
