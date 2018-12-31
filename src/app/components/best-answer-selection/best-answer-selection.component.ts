@@ -34,12 +34,13 @@ export class BestAnswerSelectionComponent implements OnInit {
 
   confirm() {
     this.matchService.selectBest(this.bestAnswers[this.selectedBest]);
+    this.bestAnswers = []
   }
 
   listenToPlayersAnswers() {
     var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
     matchData.subscribe(data => {
-      this.bestAnswers = [];
+      this.bestAnswers = []
       this.selectedBest = -1;
       this.numberOfAnswers = "";
 
@@ -49,6 +50,7 @@ export class BestAnswerSelectionComponent implements OnInit {
       var totalOfPlayers = data['players'].length;
 
       var players = data['players']
+
       for(let player of players) {
         var playerID = "" + player['player'];
         this.db.collection('matches').doc(this.matchService.getMatchID()).collection('players').doc(playerID).valueChanges().subscribe(playerdata => {
@@ -57,6 +59,8 @@ export class BestAnswerSelectionComponent implements OnInit {
           if(answers.length != 0) {
             var answerString = "";
             var count = 0;
+
+            question = data['selectedQuestion'].split(" ");
 
             for(let word of question) {
               if(word == "-") {
@@ -75,19 +79,27 @@ export class BestAnswerSelectionComponent implements OnInit {
               answer: answerString
             }
 
-            this.bestAnswers.push(answerToSave);
-            totalOfAnswers++;
+            var foundInVector = false;
+            for(let bestanswer of this.bestAnswers) {
+              if(bestanswer['player'] == answerToSave['player']) {
+                foundInVector = true;
+                break;
+              }
+            }
 
+            if(!foundInVector) {
+              this.bestAnswers.push(answerToSave);
+              totalOfAnswers++;
+            }
+
+            this.numberOfAnswers = "Respondidos: " + totalOfAnswers + " de " + (totalOfPlayers - 1);
+            this.cleanRepeated();
             if(totalOfAnswers == totalOfPlayers - 1 && data['status'] == Status.waitingAswers.valueOf()) {
               this.db.collection('matches').doc(this.matchService.getMatchID()).update({
-                answers: this.bestAnswers
-              }).then(() => {
-                this.db.collection('matches').doc(this.matchService.getMatchID()).update({
-                  status : Status.selectingBest.valueOf()
-                })
+                answers: this.bestAnswers,
+                status : Status.selectingBest.valueOf()
               })
             }
-            this.numberOfAnswers = "Respondidos: " + totalOfAnswers + " de " + (totalOfPlayers - 1);
           }
           if(answers.length == 0) {
             this.numberOfAnswers = "Respondidos: 0 de " + (totalOfPlayers - 1);
@@ -95,5 +107,28 @@ export class BestAnswerSelectionComponent implements OnInit {
         })
       }
     })
+  }
+
+  cleanRepeated() {
+    if(this.bestAnswers == undefined)
+      return;
+
+    //make sure that there's no repeated cards
+    var temp: AnswerModel[] = [];
+    temp.push(this.bestAnswers.pop())
+    for(let answer of this.bestAnswers) {
+      var found = false
+      for(let tempAnswer of temp) {
+        if(tempAnswer == answer) {
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        temp.push(this.bestAnswers.pop())
+      }
+    }
+
+    this.bestAnswers = temp;
   }
 }

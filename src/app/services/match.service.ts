@@ -221,7 +221,28 @@ export class MatchService {
         matchData.subscribe(data => {
             var matchAnswerCards = data.get('answerCards');
 
+            var numberOfAnswers = 0;
+            var question = data.get('selectedQuestion');
+            var splitted = question.split("-");
+            numberOfAnswers = splitted.length - 1;
+
+            if(numberOfAnswers <= 0)
+                numberOfAnswers = 1;
+
+            var playersCards = [];
             var players = data.get('players');
+
+            for(let player of players) {
+                var cardsArray = []
+                for(var i = 0; i < numberOfAnswers; i++) {
+                    cardsArray.push(matchAnswerCards.pop())
+                }
+                playersCards.push({
+                    player: player['player'],
+                    cards: cardsArray
+                })
+            }
+
             for(let player of players) {
                 //search for the winner and increase score
                 if(player['player'] == best.player) {
@@ -230,12 +251,22 @@ export class MatchService {
                 //make the cards on hand be 5 again
                 this.db.collection('matches').doc(this.matchID).collection('players').doc(player['player']).get().subscribe(playerdata => {
                     var cardsOnHand = playerdata.get('cards');
-                    var count = 5 - cardsOnHand.length;
-                    for(var i = 0; i < count; i++) {
-                        cardsOnHand.push(matchAnswerCards.pop())
+                    var cardsSource = playersCards.indexOf(playerdata.get('player'))
+                    if(cardsOnHand.length != 5) {
+                        for(let player of playersCards) {
+                            if(player['player'] == playerdata.get('player')) {
+                                var newCards = player['cards'];
+                                for(var i = 0; i < numberOfAnswers; i++){
+                                    cardsOnHand.push(newCards.pop())
+                                }
+                                break;
+                            }
+                        }
                     }
+                    
                     this.db.collection('matches').doc(this.matchID).collection('players').doc(player['player']).update({
-                        cards: cardsOnHand
+                        cards: cardsOnHand,
+                        answers: []
                     })
                 })
             }
