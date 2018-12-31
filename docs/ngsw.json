@@ -9,7 +9,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.5b0d1d78c8bc2bd30b0f.js",
+        "/main.10504cca397a4a72f5aa.js",
         "/polyfills.1ef83d22ada557f4a131.js",
         "/runtime.ec2944dd8b20ec099bf3.js",
         "/styles.0bcf7d8390fb90de5d13.css"
@@ -21,7 +21,6 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "urls": [
-        "/assets/copy.svg",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -29,16 +28,13 @@
         "/assets/icons/icon-384x384.png",
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
-        "/assets/icons/icon-96x96.png",
-        "/assets/paste.svg",
-        "/assets/winner.svg"
+        "/assets/icons/icon-96x96.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/assets/copy.svg": "c58910687c2e243e0c6f494018bc12b2c28aff96",
     "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -47,11 +43,9 @@
     "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
     "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
-    "/assets/paste.svg": "4245ba35065d0a6f15a51eaab22c1c0a4287ce12",
-    "/assets/winner.svg": "b733f7f006e105bde49b9af4b9d10adda6ec6b6c",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "49aad2101d12f137204c9e7cb2238be551a04a64",
-    "/main.5b0d1d78c8bc2bd30b0f.js": "f7ed7ee1885d47a796b0bdd3fb7c4c04685a0db2",
+    "/index.html": "c07a739e66a3f23162dd079bbe40a1b5bbb21814",
+    "/main.10504cca397a4a72f5aa.js": "b049794249fe7ef7db256a4bf6da5177337a5f15",
     "/polyfills.1ef83d22ada557f4a131.js": "f5c688c6cdf730d54759e30839fbd417dbe38e31",
     "/runtime.ec2944dd8b20ec099bf3.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
     "/styles.0bcf7d8390fb90de5d13.css": "bc325f6448b48dd51bf689a201a1486e5047a250"
