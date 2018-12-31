@@ -34,16 +34,11 @@ export class AnswerSelectionComponent implements OnInit {
   }
 
   private listenToPlayerCards() {
-    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).valueChanges();
+    var playerID: string = "" + this.userService.getUserUID();
+    var matchData = this.db.collection('matches').doc(this.matchService.getMatchID()).collection('players').doc(playerID).valueChanges();
     matchData.subscribe(data => {
       var cardsOnHand: String[];
-      var players = data['players'];
-      for (let player of players) {
-        if (player['player'] == this.userService.getUserUID()) {
-          cardsOnHand = player['cards'];
-          break;
-        }
-      }
+      cardsOnHand = data['cards'] as String[];
       this.answers = cardsOnHand;
       this.clean()
     })

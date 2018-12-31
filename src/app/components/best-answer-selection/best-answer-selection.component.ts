@@ -44,45 +44,55 @@ export class BestAnswerSelectionComponent implements OnInit {
       this.numberOfAnswers = "";
 
       var question = data['selectedQuestion'].split(" ");
-      var answers = data['answers'];
-      
-      if(answers != undefined) {
-        for(let answer of answers) {
-          var answerString = "";
-          var playerAnswers = answer['answers']
-          var count = 0;
 
-          if(playerAnswers != undefined) {
+      var totalOfAnswers = 0;
+      var totalOfPlayers = data['players'].length;
+
+      var players = data['players']
+      for(let player of players) {
+        var playerID = "" + player['player'];
+        this.db.collection('matches').doc(this.matchService.getMatchID()).collection('players').doc(playerID).valueChanges().subscribe(playerdata => {
+          var answers = playerdata['answers'];
+
+          if(answers.length != 0) {
+            var answerString = "";
+            var count = 0;
+
             for(let word of question) {
               if(word == "-") {
-                word = playerAnswers[count].toUpperCase();
+                word = answers[count].toUpperCase();
                 count++;
               }
               answerString += word + " ";
             }
             if(count == 0) {
-              answerString += playerAnswers[0].toUpperCase();
+              answerString += answers[0].toUpperCase();
             }
+
+            var answerToSave: AnswerModel = {
+              name: playerdata['name'],
+              player: playerdata['player'],
+              answer: answerString
+            }
+
+            this.bestAnswers.push(answerToSave);
+            totalOfAnswers++;
+
+            if(totalOfAnswers == totalOfPlayers - 1 && data['status'] == Status.waitingAswers.valueOf()) {
+              this.db.collection('matches').doc(this.matchService.getMatchID()).update({
+                answers: this.bestAnswers
+              }).then(() => {
+                this.db.collection('matches').doc(this.matchService.getMatchID()).update({
+                  status : Status.selectingBest.valueOf()
+                })
+              })
+            }
+            this.numberOfAnswers = "Respondidos: " + totalOfAnswers + " de " + (totalOfPlayers - 1);
           }
-          var answerToSave: AnswerModel = {
-            name: answer['name'],
-            player: answer['player'],
-            answer: answerString
+          if(answers.length == 0) {
+            this.numberOfAnswers = "Respondidos: 0 de " + (totalOfPlayers - 1);
           }
-          
-          this.bestAnswers.push(answerToSave)
-        }
-        if(data['answers'].length == data['players'].length) {
-          this.db.collection('matches').doc(this.matchService.getMatchID()).update({
-            status : Status.selectingBest.valueOf()
-          })
-        }
-        var totalOfPlayers = data['players'].length;
-        var totalOfAnswers = data['answers'].length;
-        this.numberOfAnswers = "Respondidos: " + totalOfAnswers + " de " + (totalOfPlayers - 1);
-      }
-      if(answers == undefined) {
-        this.numberOfAnswers = "Respondidos: 0 de " + (data['answers'].length - 1);
+        })
       }
     })
   }

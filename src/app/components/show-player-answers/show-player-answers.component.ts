@@ -55,31 +55,14 @@ export class ShowPlayerAnswersComponent implements OnInit {
       this.selectedBest = -1;
       this.askingPlayer = false;
 
-      var question = data['selectedQuestion'].split(" ");
       var answers = data['answers'];
       
       if(answers != undefined) {
         for(let answer of answers) {
-          var answerString = "";
-          var playerAnswers = answer['answers']
-          var count = 0;
-
-          if(playerAnswers != undefined) {
-            for(let word of question) {
-              if(word == "-") {
-                word = playerAnswers[count].toUpperCase();
-                count++;
-              }
-              answerString += word + " ";
-            }
-            if(count == 0) {
-              answerString += playerAnswers[0].toUpperCase();
-            }
-          }
           var answerToSave: AnswerModel = {
             name: answer['name'],
             player: answer['player'],
-            answer: answerString
+            answer: answer['answer']
           }
           
           this.bestAnswers.push(answerToSave);

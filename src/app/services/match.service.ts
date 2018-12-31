@@ -46,7 +46,17 @@ export class MatchService {
         match.then(data => {
             this.setMatchID(data['id'])
             this.startListeners();
-            this.router.navigate(['/start']);
+            var playerID: string = "" + this.userService.getUserUID();
+            this.db.collection('matches').doc(this.matchID).collection('players').doc(playerID).set({
+                player: this.userService.getUserUID(), 
+                name: this.userService.getUserName(), 
+                image: this.userService.getUserImage(), 
+                score: 0, 
+                cards: cardsOnHand,
+                answers: []
+            }).then(() => {
+                this.router.navigate(['/start']);
+            })
         })
     }
 
@@ -77,10 +87,20 @@ export class MatchService {
             this.db.collection('matches').doc(matchID).update({
                 players: players,
                 answerCards: matchAnswerCards
-            })
-
-            this.startListeners();
-            this.router.navigate(['/answers']);
+            }).then(() => {
+                var playerID: string = "" + this.userService.getUserUID();
+                this.db.collection('matches').doc(this.matchID).collection('players').doc(playerID).set({
+                    player: this.userService.getUserUID(), 
+                    name: this.userService.getUserName(), 
+                    image: this.userService.getUserImage(), 
+                    score: 0, 
+                    cards: cardsOnHand,
+                    answers: []
+                }).then(() => {
+                    this.startListeners();
+                    this.router.navigate(['/answers']);
+                })
+            }) 
         })
     }
 
@@ -181,28 +201,17 @@ export class MatchService {
     }
 
     registerAnswers(answers: String[]) {
-        var matchData = this.db.collection('matches').doc(this.getMatchID()).get();
+        var playerID: string = "" + this.userService.getUserUID();
+        var matchData = this.db.collection('matches').doc(this.getMatchID()).collection('players').doc(playerID).get();
         matchData.subscribe(data => {
-            var answersArray = data.get('answers');
-            var playerAnswer = { player: this.userService.getUserUID(), name: this.userService.getUserName(), answers: answers };
-            answersArray.push(playerAnswer);
-
             var cardsOnHand: String[];
-            var players = data.get('players');
-            for (let player of players) {
-                if (player['player'] == this.userService.getUserUID()) {
-                    cardsOnHand = player['cards'] as String[];
-                    for(let answer of answers) {
-                        cardsOnHand.splice(cardsOnHand.indexOf(answer), 1);
-                    }
-                    player['cards'] = cardsOnHand;
-                    break;
-                }
+            cardsOnHand = data.get('cards') as String[];
+            for(let answer of answers) {
+                cardsOnHand.splice(cardsOnHand.indexOf(answer), 1);
             }
-
-            this.db.collection('matches').doc(this.getMatchID()).update({
-                answers: answersArray,
-                players: players
+            this.db.collection('matches').doc(this.getMatchID()).collection('players').doc(playerID).update({
+                answers: answers,
+                cards: cardsOnHand
             })
         })
     }
@@ -219,11 +228,16 @@ export class MatchService {
                     player['score'] += 1;
                 }
                 //make the cards on hand be 5 again
-                var cardsOnHand = player['cards'];
-                var count = 5 - cardsOnHand.length;
-                for(var i = 0; i < count; i++) {
-                    cardsOnHand.push(matchAnswerCards.pop())
-                }
+                this.db.collection('matches').doc(this.matchID).collection('players').doc(player['player']).get().subscribe(playerdata => {
+                    var cardsOnHand = playerdata.get('cards');
+                    var count = 5 - cardsOnHand.length;
+                    for(var i = 0; i < count; i++) {
+                        cardsOnHand.push(matchAnswerCards.pop())
+                    }
+                    this.db.collection('matches').doc(this.matchID).collection('players').doc(player['player']).update({
+                        cards: cardsOnHand
+                    })
+                })
             }
 
             this.db.collection('matches').doc(this.getMatchID()).update({
