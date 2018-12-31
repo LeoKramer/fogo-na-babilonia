@@ -95,6 +95,13 @@ export class ShowPlayerAnswersComponent implements OnInit {
       if(data['status'] == Status.finished.valueOf()) {
         this.router.navigate(['/score']);
       }
+      if(data['status'] == Status.waitingQuestion.valueOf()) {
+        if(data['asking'] == this.userService.getUserUID) {
+          this.router.navigate(['/questions']);
+        } else {
+          this.router.navigate(['/answers']);
+        }
+      }
     })
   }
 }
